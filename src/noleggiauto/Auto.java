@@ -7,7 +7,7 @@ public class Auto {
 	private String colore;
 	private int NumVGrandi;
 	private int NumVPiccole;
-	private int CostoGiorno;
+	private int costoGiorno;
 	
 	
 
@@ -20,7 +20,8 @@ public class Auto {
 		this.colore = colore;
 		NumVGrandi = numVGrandi;
 		NumVPiccole = numVPiccole;
-		CostoGiorno = costoGiorno;
+		
+		
 	}
 
 	public String getTarga() {
@@ -48,7 +49,9 @@ public class Auto {
 	}
 	
 	public int getCostoGiornaliero() {
-		return CostoGiorno;
+		return costoGiorno;
 	}
+
+	
 	
 }

@@ -62,7 +62,7 @@ public class Esempio {
 		
 		System.out.println("\nRegistrazione cliente");
 
-		Cliente c1 = a.registraCliente("Rossi", "Mario", "Italiana", "UA445566");
+		Cliente c1 = a.registraCliente("Rossi", "Mario", "Italia", "UA445566");
 
 		System.out.println("\nCodice assegnato: "+c1.getCodice());
 
