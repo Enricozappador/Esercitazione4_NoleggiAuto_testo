@@ -11,6 +11,8 @@ public class Autonoleggio {
 	private int numCompatte;
 	private Berlina berline[];
 	private int numBerline;
+	private Noleggio noleggi[]; 
+	private int numNoleggi; 
 	
 //	private ArrayList codicic;
 	
@@ -29,6 +31,8 @@ public class Autonoleggio {
 		berline = new Berlina [10000];
 		numCompatte = 0; 
 		numBerline = 0; 
+		noleggi = new Noleggio[10000];
+		numNoleggi = 0; 
 		//codicic = new ArrayList() ;
 		
 	}
@@ -210,18 +214,88 @@ codice = codice+"-";
 	}
 	
 	public Auto nuovoNoleggio(String codiceCliente, char tipologiaAuto, String dataInizio, String dataFine) {
-		return null;
+		String ttemp = "CC222DD";
+		String mtemp ="";
+		String modtemp = "";
+		String ctemp = "";
+		char tiptemp = 'C' ; 
+		boolean trovato = false;
+		Noleggio ntemp = new Noleggio (codiceCliente, ttemp, dataInizio, dataFine);
+		Auto atemp = new Auto (ttemp, mtemp, modtemp, ctemp, tiptemp);
+		
+		for (Cliente c : clienti)
+		{
+			if (c!= null && codiceCliente.compareTo(c.getCodice())==0 ) {
+			
+					noleggi[numNoleggi++] = ntemp;
+				
+			}
+			 
+		}
+		for (Auto a : auto) {
+			if (a!= null && tipologiaAuto == a.getTipologia() && trovato == false)
+				//ttemp = a.setTarga(a.targa); 
+			noleggi[numNoleggi++] = ntemp;
+				
+		}
+	
+		
+		return atemp;
 	}
 
 	public String elencoNoleggiCliente(String codiceCliente) {
+		for (Noleggio n : noleggi)
+			if(n!=null && n.getCodiceCliente().compareTo(codiceCliente)==0)
+				return n.getTarga()+" "+n.getDataInizio()+" "+n.getDataFine();
+		
 		return null;
 	}
 	
 	public String elencoNoleggiAuto(String targa) {
+		for (Noleggio n : noleggi)
+			if(n!=null && n.getTarga().compareTo(targa)==0)
+				return n.getCodiceCliente()+" "+n.getDataInizio()+" "+n.getDataFine();
+		
 		return null;
 	}
 
 	public int calcolaCostoNoleggio(String targa, String codiceCliente, String dataInizio, String dataFine) {
+		String AFtemp = dataFine.substring(0,4);
+		String AItemp = dataInizio.substring(0, 4);
+		String MItemp = dataInizio.substring(5,6);
+		String MFtemp = dataFine.substring(5, 6);
+		String GItemp = dataInizio.substring(7, 8);
+		String GFtemp = dataFine.substring(7,8);
+		int A = Integer.parseInt(AFtemp)-Integer.parseInt(AItemp);
+		int M = Integer.parseInt(MFtemp)-Integer.parseInt(MItemp);
+		int G = Integer.parseInt(GFtemp)-Integer.parseInt(GItemp);
+		int result = (365*A)+(30*M)+G; 
+		
+		
+		
+	
+		
+		
+		
+		
+		for (Noleggio n : noleggi) {
+			if (n!=null && n.getTarga().compareTo(targa)==0 && n.getCodiceCliente().compareTo(codiceCliente)==0 &&
+			n.getDataInizio().compareTo(dataInizio)==0 && n.getDataFine().compareTo(dataFine)==0) {
+				
+				for (Auto a : auto) {
+					if(a!=null && a.getTarga().compareTo(targa)==0)
+			{  if (a.getTipologia() == 'B')
+				result = result * 75;
+			else if (a.getTipologia()== 'C')
+				result = result * 50;
+			else 
+				result = 1;
+		
+			}}
+			
+				return result;
+		}}
+				
 		return -1;
 	}
 

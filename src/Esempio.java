@@ -77,6 +77,7 @@ public class Esempio {
 		
 		System.out.println("\nNuovo noleggio cliente "+c1.getCodice()+" per berlina");
 		Auto autoNoleggiata = a.nuovoNoleggio(c1.getCodice(), 'B', "20191121", "20191123");
+
 		
 		if(autoNoleggiata==null)
 			System.out.println("\nCliente non registrato");
