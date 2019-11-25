@@ -8,19 +8,23 @@ public class Auto {
 	private int NumVGrandi;
 	private int NumVPiccole;
 	private int costoGiorno;
+	private char tipologia;
 	
 	
 
-	public Auto(String targa, String marca, String modello, String colore, int numVGrandi, int numVPiccole,
-			int costoGiorno) {
+	
+
+	public Auto(String targa, String marca, String modello, String colore, char tipologia) {
 		super();
 		this.targa = targa;
 		this.marca = marca;
 		this.modello = modello;
 		this.colore = colore;
-		NumVGrandi = numVGrandi;
-		NumVPiccole = numVPiccole;
-		
+		this.setTipologia(tipologia);
+		NumVGrandi = -1;
+		NumVPiccole = -1;
+		costoGiorno = 0;
+	
 		
 	}
 
@@ -52,6 +56,16 @@ public class Auto {
 		return costoGiorno;
 	}
 
-	
+	public char getTipologia() {
+		return tipologia;
+	}
+
+	public void setTipologia(char tipologia) {
+		this.tipologia = tipologia;
+	}
+
+	public void setColore(String colore) {
+		this.colore = colore;
+	}
 	
 }

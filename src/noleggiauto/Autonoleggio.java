@@ -7,6 +7,10 @@ package noleggiauto;
 public class Autonoleggio {
 	private Auto auto[];
 	private int numAuto;
+	private Compatta compatte[];
+	private int numCompatte;
+	private Berlina berline[];
+	private int numBerline;
 	
 //	private ArrayList codicic;
 	
@@ -21,14 +25,34 @@ public class Autonoleggio {
 		numAuto = 0; 
 		numClienti = 0;
 		clienti = new Cliente[10000];
+		compatte = new Compatta [10000]; 
+		berline = new Berlina [10000];
+		numCompatte = 0; 
+		numBerline = 0; 
 		//codicic = new ArrayList() ;
 		
 	}
 	
 	public Auto aggiungiAuto(String targa, String marca, String modello, String colore, char tipologia) {
 		Auto aTemp;
-		aTemp =  new Auto(targa, marca, modello, colore, tipologia, 0, 0);
+		aTemp =  new Auto(targa, marca, modello, colore, tipologia);
 		
+		for (Auto a : auto) 
+			if( a != null && a.getTarga().compareTo(targa)==0) {
+				a.setColore(colore);}
+		
+		if (tipologia == 'C') {
+			Compatta cTemp = new Compatta(targa, marca, modello, colore, tipologia);
+			compatte[numCompatte++]= cTemp; 
+			aTemp = cTemp; 
+			auto[numAuto++]= cTemp; 
+		}
+		else  if (tipologia == 'B'){
+			Berlina bTemp = new Berlina(targa, marca, modello, colore, tipologia); 
+			berline[numBerline++]= bTemp;
+			aTemp = bTemp; 
+			auto[numAuto++]= bTemp; 
+		}
 		
 		
 		
@@ -51,7 +75,7 @@ public class Autonoleggio {
 			return Compatta.class; 
 		}*/
 		
-		auto[numAuto++] = aTemp;
+		//auto[numAuto++] = aTemp;
 		
 		
 		

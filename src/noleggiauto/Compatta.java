@@ -3,12 +3,21 @@ package noleggiauto;
 public class Compatta extends Auto{
 	//static char C;
 
-	public Compatta(String targa, String marca, String modello, String colore, int numVGrandi, int numVPiccole,
-			int costoGiorno) {
-		super(targa, marca, modello, colore, numVGrandi, numVPiccole, costoGiorno);
+	public Compatta(String targa, String marca, String modello, String colore, char tipologia) {
+		super(targa, marca, modello, colore, tipologia);
+		
 
 
 		
+	}
+	public  int getNumeroValigieGrandi () {
+		return 0; 
+	}
+	public int getNumeroValigiePiccole () {
+		return 2; 
+	}
+	public int getCostoGiornaliero() {
+		return 50; 
 	}
 	/*public int ControlloV() {
 		if(getNumeroValigieGrandi()<1 && getNumeroValigiePiccole()<3  )
