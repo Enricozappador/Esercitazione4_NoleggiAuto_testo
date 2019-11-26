@@ -32,6 +32,10 @@ public class Auto {
 		return targa;
 	}
 
+	public void setTarga(String targa) {
+		this.targa = targa;
+	}
+
 	public String getMarca() {
 		return marca;
 	}

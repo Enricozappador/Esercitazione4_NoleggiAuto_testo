@@ -13,6 +13,7 @@ public class Autonoleggio {
 	private int numBerline;
 	private Noleggio noleggi[]; 
 	private int numNoleggi; 
+	boolean trovato; 
 	
 //	private ArrayList codicic;
 	
@@ -33,6 +34,7 @@ public class Autonoleggio {
 		numBerline = 0; 
 		noleggi = new Noleggio[10000];
 		numNoleggi = 0; 
+		trovato = false; 
 		//codicic = new ArrayList() ;
 		
 	}
@@ -96,12 +98,19 @@ public class Autonoleggio {
 	}
 
 	public String elencoAuto() {
-		for (Auto a : auto)
-			if (a != null)
-				System.out.println(a.getTarga()+" "+a.getMarca()+" "+a.getModello()+" "+a.getColore()+" ");
+		String elencotemp="";
+		for (int i=0 ; i<numAuto ; i++) {
+			if (auto[i] != null) {
+				//System.out.println(a.getTarga()+" "+a.getMarca()+" "+a.getModello()+" "+a.getColore()+" ");
+				elencotemp += auto[i].getTarga()+" "+auto[i].getMarca()+" "+auto[i].getModello()+" "+auto[i].getColore()+" "+auto[i].getTipologia();
+			}if (i!= numAuto-1)
+				elencotemp += "\n";
 		
+	}
 			
-		return "Fine Elenco";
+		return elencotemp;		
+		
+		
 	}
 		
 	public Cliente registraCliente(String cognome, String nome, String nazionalita, String numeroPatente) {
@@ -212,9 +221,44 @@ codice = codice+"-";
 				return c;
 		return null;
 	}
-	
+	private Auto[] cercaAutomobile(char tipologiaAuto) {
+		Auto atemp[] = new Auto[100];
+		int numA = 0; 
+		for (Auto a : auto)
+			if (a!= null && a.getTipologia() == tipologiaAuto)
+				atemp[numA++] = a; 
+				trovato = true; 
+				
+		return atemp;
+	}
 	public Auto nuovoNoleggio(String codiceCliente, char tipologiaAuto, String dataInizio, String dataFine) {
-		String ttemp = "CC222DD";
+		Cliente tempCliente = cercaCliente(codiceCliente); 
+		Auto atemp[] = cercaAutomobile(tipologiaAuto);
+		
+		Noleggio ntemp = null; 
+		if (tempCliente == null)
+			return null; 
+		else if (tempCliente != null && trovato == false) 
+		{atemp[0].setTarga(null);
+		return atemp[0];
+		}
+		else {
+			for (Noleggio n : noleggi) {
+				if (n!=null && ((n.getCliente().getCodice().equals(codiceCliente) && n.getDataInizio().compareTo(dataInizio)>0 &&
+						n.getDataInizio().compareTo(dataFine)<0)||(n.getCliente().getCodice().equals(codiceCliente)&& n.getDataFine().compareTo(dataInizio)>0
+								&& n.getDataInizio().compareTo(dataFine)<0))) {
+					return null;
+				}
+			}
+			ntemp = new Noleggio (tempCliente, atemp[0], dataInizio,dataFine);
+			noleggi[numNoleggi++]= ntemp; 
+			
+		}
+		
+			
+		
+		
+		/*String ttemp = "CC222DD";
 		String mtemp ="";
 		String modtemp = "";
 		String ctemp = "";
@@ -239,24 +283,45 @@ codice = codice+"-";
 				
 		}
 	
+		*/
 		
-		return atemp;
+		
+		return atemp[0];
 	}
 
+	
+
 	public String elencoNoleggiCliente(String codiceCliente) {
-		for (Noleggio n : noleggi)
-			if(n!=null && n.getCodiceCliente().compareTo(codiceCliente)==0)
-				return n.getTarga()+" "+n.getDataInizio()+" "+n.getDataFine();
+		String elencoTemp = ""; 
+		for (int i = 0; i<numNoleggi; i++ ) {
+			if(noleggi[i]!=null && noleggi[i].getCliente().getCodice().compareTo(codiceCliente)==0) {
+				elencoTemp += noleggi[i].getAuto().getTarga()+" "+noleggi[i].getDataInizio()+" "+noleggi[i].getDataFine();
+			if(i!= numNoleggi-1)
+				elencoTemp+="\n";
+			}else 
+				elencoTemp = null; 
+		}
+		return elencoTemp; 
 		
-		return null;
+
+		
 	}
 	
 	public String elencoNoleggiAuto(String targa) {
-		for (Noleggio n : noleggi)
-			if(n!=null && n.getTarga().compareTo(targa)==0)
-				return n.getCodiceCliente()+" "+n.getDataInizio()+" "+n.getDataFine();
-		
-		return null;
+		String elencoTemp="";
+		for (int i = 0; i<numNoleggi ; i++) {
+			if(noleggi[i]!= null && noleggi[i].getAuto().getTarga().compareTo(targa)==0) {
+				 
+				elencoTemp += noleggi[i].getCliente().getCodice()+" "+noleggi[i].getDataInizio()+" "+noleggi[i].getDataFine();
+			
+			if(i!= numNoleggi-1)
+				elencoTemp+="\n";
+			
+			}else 
+				elencoTemp+= null;
+			
+		}
+		return elencoTemp;
 	}
 
 	public int calcolaCostoNoleggio(String targa, String codiceCliente, String dataInizio, String dataFine) {
@@ -279,7 +344,7 @@ codice = codice+"-";
 		
 		
 		for (Noleggio n : noleggi) {
-			if (n!=null && n.getTarga().compareTo(targa)==0 && n.getCodiceCliente().compareTo(codiceCliente)==0 &&
+			if (n!=null && n.getAuto().getTarga().compareTo(targa)==0 && n.getCliente().getCodice().compareTo(codiceCliente)==0 &&
 			n.getDataInizio().compareTo(dataInizio)==0 && n.getDataFine().compareTo(dataFine)==0) {
 				
 				for (Auto a : auto) {
@@ -289,7 +354,7 @@ codice = codice+"-";
 			else if (a.getTipologia()== 'C')
 				result = result * 50;
 			else 
-				result = 1;
+				result = -1;
 		
 			}}
 			
