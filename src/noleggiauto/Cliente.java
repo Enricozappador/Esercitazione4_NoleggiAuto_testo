@@ -6,6 +6,10 @@ public class Cliente {
 	private String nome; 
 	private String nazionalita;
 	private String numPatente;
+	Noleggio noleggi[];
+	int numNoleggi;
+	
+
 
 	
 
@@ -16,6 +20,8 @@ public class Cliente {
 		this.nome = nome;
 		this.nazionalita = nazionalita;
 		this.numPatente = numPatente;
+		this.noleggi = new Noleggio[100];
+		this.numNoleggi = 0;
 		
 
 	}
@@ -40,7 +46,23 @@ public class Cliente {
 	public String getNumeroPatente() {
 		return numPatente;
 	}
-	
+	public boolean verificaSeLibero(String dataInizio, String dataFine) {
+		
+		boolean libero = true;
+		
+		for (Noleggio n: noleggi) {
+			if (n != null) {
+				libero = libero && ( (dataFine.compareTo(n.getDataInizio()) < 0) || (dataInizio.compareTo(n.getDataFine()) > 0) );
+			}
+		}
+		
+		
+		return libero;
+	}
+	public void nuovoNoleggio(Auto auto, Cliente cliente, String dataInizio, String dataFine) {
+		Noleggio nTemp = new Noleggio(cliente, auto, dataInizio, dataFine);
+		noleggi[numNoleggi++] = nTemp;
+	}
 /*  public  String printCode() {
 		
 		
